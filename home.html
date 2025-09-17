@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SwarnSathi - Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    // 🔹 Supabase setup
+    const SUPABASE_URL = "https://qczxnozxubugbcklmkij.supabase.co";
+    const SUPABASE_ANON_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjenhub3p4dWJ1Z2Jja2xta2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwODQ5NTUsImV4cCI6MjA3MzY2MDk1NX0.orP9of9MxNMcYlDMh1QMUi8aThZ3_R5ISUnD2T9bokA";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      // ✅ Check session
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      // ✅ Show email in navbar
+      document.getElementById("user-email").textContent = session.user.email;
+
+      // ✅ Dummy profile check (replace later with Supabase users table check)
+      const profileCompleted = localStorage.getItem("profileCompleted") === "true";
+
+      if (!profileCompleted) {
+        document.getElementById("matrimony-lock").classList.remove("hidden");
+        document.getElementById("matrimony-btn").onclick = () => {
+          window.location.href = "profile.html"; // Redirect to complete profile
+        };
+      } else {
+        document.getElementById("matrimony-lock").classList.add("hidden");
+        document.getElementById("matrimony-btn").onclick = () => {
+          window.location.href = "matrimony.html"; // unlocked access
+        };
+      }
+    });
+
+    // ✅ Logout function
+    async function signOut() {
+      await supabase.auth.signOut();
+      localStorage.removeItem("profileCompleted"); // reset
+      window.location.href = "index.html";
+    }
+    window.signOut = signOut;
+  </script>
+</head>
+
+<body class="bg-gray-50 font-sans">
+  <!-- Navbar -->
+  <header class="bg-white shadow sticky top-0 z-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+    <!-- Logo -->
+    <h1 class="text-lg sm:text-xl font-bold text-gray-800">QuickApp Chhindwara</h1>
+
+    <!-- Desktop Right Section -->
+    <div class="hidden sm:flex items-center gap-4">
+      <span class="text-gray-600 text-sm truncate max-w-[120px]" id="user-email"></span>
+      <button onclick="signOut()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+        Logout
+      </button>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="menu-btn" class="sm:hidden flex items-center p-2 rounded-md hover:bg-gray-100 focus:outline-none">
+      <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Dropdown -->
+  <div id="mobile-menu" class="hidden sm:hidden px-4 pb-4">
+    <span class="block text-gray-600 text-sm mb-2" id="user-email-mobile"></span>
+    <button onclick="signOut()" class="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+      Logout
+    </button>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const menuBtn = document.getElementById("menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  menuBtn.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+  });
+
+  // ✅ Sync email with both desktop & mobile
+  document.addEventListener("DOMContentLoaded", () => {
+    const email = document.getElementById("user-email").textContent;
+    document.getElementById("user-email-mobile").textContent = email;
+  });
+</script>
+
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-pink-100 to-yellow-100 py-16 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Welcome to QuickApp Chhindwara</h2>
+    <p class="text-gray-600 max-w-xl mx-auto">
+      Your one-stop local app for services, shopping, education, rentals, and more in Chhindwara.
+    </p>
+  </section>
+
+  <!-- Features Section -->
+  <section class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-8">
+
+    <!-- Jewellery -->
+    <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+      <img src="https://www.svgrepo.com/show/522192/diamond.svg" class="w-16 h-16 mb-4" alt="Jewellery">
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Jewellery Business</h3>
+      <p class="text-gray-600 mb-4">Browse, explore, and buy premium jewellery from trusted vendors.</p>
+      <button onclick="window.location.href='jewellery.html'"
+        class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-yellow-600 transition">
+        Explore Jewellery
+      </button>
+    </div>
+
+    <!-- Matrimony -->
+    <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition relative">
+      <img src="https://www.svgrepo.com/show/522045/wedding-rings.svg" class="w-16 h-16 mb-4" alt="Matrimony">
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Matrimony</h3>
+      <p class="text-gray-600 mb-4">Find your perfect match. Complete your profile to get started.</p>
+      <button id="matrimony-btn" class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+        Enter Matrimony
+      </button>
+
+      <!-- Lock Icon -->
+      <div id="matrimony-lock"
+        class="absolute top-4 right-4 bg-red-100 text-red-500 p-2 rounded-full hidden text-sm font-bold">
+        🔒
+      </div>
+    </div>
+  </section>
+</body>
+</html>
