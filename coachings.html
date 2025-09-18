@@ -61,17 +61,17 @@
             <h1 class="text-lg sm:text-xl font-bold text-gray-800">QuickApp Chhindwara</h1>
 
             <!-- Desktop Right Section -->
-            <div class="hidden sm:flex items-center gap-4">
+            <!-- <div class="hidden sm:flex items-center gap-4">
                 <span class="text-gray-600 text-sm truncate max-w-[120px]" id="user-email"></span>
                 <button onclick="signOut()"
                     class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
                     Logout
                 </button>
-            </div>
+            </div> -->
 
             <!-- Mobile Menu Button -->
             <button id="menu-btn"
-                class="sm:hidden flex items-center p-2 rounded-md hover:bg-gray-100 focus:outline-none">
+                class="flex items-center p-2 rounded-md hover:bg-gray-100 focus:outline-none">
                 <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -79,7 +79,7 @@
         </div>
 
         <!-- Mobile Dropdown -->
-        <div id="mobile-menu" class="hidden sm:hidden px-4 pb-4">
+        <div id="mobile-menu" class="hidden sm:hidden md:hidden lg:hidden px-4 pb-4">
             <span class="block text-gray-600 text-sm mb-2" id="user-email-mobile"></span>
             <button onclick="signOut()"
                 class="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">

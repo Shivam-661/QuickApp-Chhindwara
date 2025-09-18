@@ -1,0 +1,699 @@
+package com.shivamsoni12799.townapp.data.models
+
+import com.google.firebase.Timestamp
+
+data class ApplicationModel(
+    val providerId: String = "",
+    val id: String = "",
+    val userId: String = "",
+    val name: String = "",
+    val email: String = "",
+    val phone: String = "",
+    val qualification: String = "",
+    val experience: String = "",
+    val resumeLink: String = "",
+    val timestamp: Long = System.currentTimeMillis(),
+    val applicationId: String = "",      // Unique ID for the application
+    val jobId: String = "",              // ID of the job the user is applying to
+    val jobTitle: String = "",           // Optional: Job title
+    val companyId: String = "",          // ID of the company or employer
+
+    val applicantId: String = "",        // Firebase UID of the user
+    val applicantName: String = "",      // Full name
+    val applicantEmail: String = "",
+    val applicantPhone: String = "",
+
+    val resumeText: String = "",         // Optional: Short resume summary or description
+    val resumePdfUrl: String = "",       // URL to PDF file in Firebase Storage
+    val profileImageUrl: String = "",    // Optional: User profile image URL
+
+    val appliedAt: String = "",          // Human-readable timestamp (optional)
+    val appliedTimestamp: Timestamp = Timestamp.now()
+)
+
+
+data class BookingModel(
+    val providerId: String = "",
+    val userId: String = "",
+    val timeSlot: String = "",
+    val date: String = "",
+    val status: String = "pending"
+)
+
+
+data class CartModel(
+    val providerId: String = "",
+    val cartId: String = "",                     // Unique cart ID (optional; usually = userId)
+    val userId: String = "",                     // Firebase UID of the user
+    val items: List<CartItemModel> = listOf(),   // List of products in cart
+    val totalAmount: Double = 0.0,               // Total amount of the cart
+    val updatedAt: Long = 0L
+)
+
+data class CartItemModel(
+    val productId: String = "",                  // ID of the product
+    val productName: String = "",                // Title/name of the product
+    val productImageUrl: String = "",            // Main image URL
+    val selectedVariant: String = "",            // e.g., "Color: Black, Size: L"
+    val quantity: Int = 1,                       // Quantity added to cart
+    val pricePerUnit: Double = 0.0,              // Price per item
+    val totalPrice: Double = 0.0                 // quantity * pricePerUnit
+)
+
+
+
+data class CompanyModel(
+    val providerId: String = "",
+    val companyName: String = "",
+    val description: String = "",
+    val address: String = "",
+    val contactNumber: String = "",
+    val website: String = "",
+    val logoURL: String = "",
+    val timestamp: Long = System.currentTimeMillis()
+)
+
+
+data class CourseModel(
+    val providerId: String = "",
+    val id: String = "",
+    val courseId: String = "",             // Unique ID for the course
+    val courseTitle: String = "",          // e.g., "Class 10 Science", "B.Sc Physics", "NEET Coaching - Biology"
+    val description: String = "",          // Short course description
+    val level: String = "",                // school / college / university / institute / coaching
+    val organizationName: String = "",     // e.g., "St. Mary's School", "ABC Coaching"
+    val category: String = "",             // e.g., "Science", "Commerce", "Engineering", etc.
+
+    val subject: String = "",              // e.g., "Biology", "Mathematics"
+    val teacherName: String = "",          // Optional: Instructor/Teacher Name
+    val teacherEmail: String = "",         // Optional: Contact for support
+
+    val videoTitle: String = "",           // e.g., "Photosynthesis Explained"
+    val videoUrl: String = "",             // YouTube or direct video link
+    val videoDuration: String = "",        // e.g., "12:45"
+    val thumbnailUrl: String = "",         // Optional: Video thumbnail
+
+    val isFree: Boolean = true,            // True for free course, false for paid
+    val price: String = "",                // Optional: For paid courses
+
+    val createdBy: String = "",            // Firebase UID of the uploader/admin
+    val createdAt: Long = 0L,              // Epoch millis timestamp
+    val approved: Boolean = false
+)
+
+
+data class DoctorModel(
+    val providerId: String = "",
+    val doctorId: String = "",              // Unique ID (can use Firebase UID or custom)
+    val fullName: String = "",              // Doctor's full name
+    val email: String = "",                 // Email address
+    val phone: String = "",                 // Contact number
+    val gender: String = "",                // Optional: "Male", "Female", "Other"
+    val profileImageUrl: String = "",       // Firebase Storage URL for profile picture
+
+    val specialization: String = "",        // e.g., "Cardiologist", "Dentist", "Orthopedic"
+    val qualifications: String = "",        // e.g., "MBBS, MD", or full text
+    val experienceYears: String = "",       // e.g., "5+ years"
+
+    val clinicName: String = "",            // Optional: Clinic/Hospital name
+    val clinicAddress: String = "",         // Full address
+    val clinicCity: String = "",            // For filtering/search
+    val clinicPincode: String = "",         // Optional
+
+    val consultationFee: String = "",       // e.g., "₹500"
+    val availableDays: String = "",         // e.g., "Mon-Fri"
+    val availableTime: String = "",         // e.g., "10:00 AM - 2:00 PM"
+
+    val identityProofType: String = "",     // e.g., "Aadhaar", "PAN", "Medical License"
+    val identityProofNumber: String = "",   // e.g., Aadhaar/PAN/lic no.
+    val identityDocumentUrl: String = "",   // Firebase Storage link to document scan/image
+
+    val createdAt: Long = 0L,               // Epoch millis timestamp
+    val approved: Boolean = false
+)
+
+
+
+data class FacultyModel(
+    val providerId: String = "",
+    val facultyId: String = "",              // Unique ID (Firebase UID or custom ID)
+    val fullName: String = "",               // Faculty full name
+    val email: String = "",                  // Official/registered email
+    val phone: String = "",                  // Contact number
+    val gender: String = "",                 // "Male", "Female", "Other"
+
+    val profileImageUrl: String = "",        // Firebase Storage URL for profile picture
+    val department: String = "",             // e.g., "Computer Science", "Mathematics"
+    val designation: String = "",            // e.g., "Assistant Professor", "HOD", "Lecturer"
+    val qualification: String = "",          // e.g., "M.Sc, PhD", "B.Ed", etc.
+
+    val institutionId: String = "",          // ID of the associated school/college/institute
+    val institutionName: String = "",        // Human-readable name
+
+    val experienceYears: String = "",        // e.g., "5+ years"
+    val subjectsTaught: String = "",         // e.g., "Physics, Chemistry", or comma-separated list
+    val achievements: String = "",           // Optional text field for awards, publications, etc.
+
+    val identityProofType: String = "",      // e.g., "PAN", "Aadhaar", "Staff ID"
+    val identityProofNumber: String = "",    // Number or ID
+    val identityDocumentUrl: String = "",    // Firebase Storage URL of proof document
+
+    val createdAt: Long = 0L,                // Epoch timestamp
+    val approved: Boolean = false
+)
+
+
+
+data class HospitalModel(
+    val providerId: String = "",
+    val hospitalId: String = "",             // Unique ID (Firestore document ID or custom)
+    val name: String = "",                   // Hospital or Clinic name
+    val type: String = "",                   // e.g., "Multispeciality", "Dental", "Eye Hospital", "Clinic"
+
+    val email: String = "",                  // Official contact email
+    val phone: String = "",                  // Main contact number
+    val alternatePhone: String = "",         // Optional second number
+
+    val addressLine: String = "",            // Full address (line 1)
+    val city: String = "",                   // For search/filter
+    val state: String = "",                  // e.g., "Madhya Pradesh"
+    val pincode: String = "",
+
+    val mapLocationUrl: String = "",         // Optional: Google Maps or embedded link
+    val website: String = "",                // Optional website URL
+    val logoUrl: String = "",                // Firebase Storage link to hospital logo or image
+
+    val facilities: String = "",             // e.g., "ICU, MRI, CT Scan, Pharmacy"
+    val totalDoctors: Int = 0,               // Optional: no. of doctors
+    val emergencyAvailable: Boolean = false, // True if 24x7 Emergency is available
+
+    val registrationNumber: String = "",     // Optional: Medical or hospital registration ID
+    val licenseDocumentUrl: String = "",     // Firebase Storage URL to registration/license proof
+
+    val createdBy: String = "",              // UID of the user who added it (admin or hospital manager)
+    val createdAt: Long = 0L,                // Epoch timestamp
+    val approved: Boolean = false
+)
+
+
+data class InquiryPropertyModel(
+    val providerId: String = "",
+    val inquiryId: String = "",             // Unique ID (Firestore doc ID or UUID)
+
+    val propertyId: String = "",            // ID of the property being inquired about
+    val propertyTitle: String = "",         // Optional: for easier admin/user reference
+
+    val inquirerId: String = "",            // UID of the user making the inquiry
+    val inquirerName: String = "",          // Optional: name of the user
+    val inquirerPhone: String = "",         // Contact number
+    val inquirerEmail: String = "",         // Optional email
+
+    val message: String = "",               // Message sent by the inquirer
+    val inquiryDate: Long = 0L,             // Epoch timestamp of inquiry
+
+    val ownerId: String = "",               // UID of the property owner
+    val isSeenByOwner: Boolean = false,     // For notification system
+    val status: String = "pending"
+)
+
+
+data class InquiryRoomModel(
+    val providerId: String = "",
+    val inquiryId: String = "",              // Firestore doc ID or UUID
+    val roomId: String = "",                 // ID of the room being inquired about
+    val roomTitle: String = "",              // Optional: room title for quick display
+
+    val inquirerId: String = "",             // UID of the person making the inquiry
+    val inquirerName: String = "",           // Name of the user
+    val inquirerPhone: String = "",          // Contact number
+    val inquirerEmail: String = "",          // Optional email
+
+    val message: String = "",                // Message or note sent by the user
+    val inquiryDate: Long = 0L,              // Epoch timestamp of when inquiry was made
+
+    val ownerId: String = "",                // UID of the room owner
+    val isSeenByOwner: Boolean = false,      // Whether the inquiry is read by owner
+    val status: String = "pending"
+)
+
+
+data class InstituteModel(
+    val providerId: String = "",
+    val instituteId: String = "",              // Unique ID (Firestore doc ID or generated UID)
+    val name: String = "",                     // Institute full name
+    val type: String = "",                     // e.g., "Coaching", "College", "University", "Training Center"
+
+    val email: String = "",                    // Contact email
+    val phone: String = "",                    // Primary contact number
+    val alternatePhone: String = "",           // Optional
+
+    val addressLine: String = "",              // Street address
+    val city: String = "",                     // City for search/filter
+    val state: String = "",                    // State
+    val pincode: String = "",                  // Postal code
+
+    val website: String = "",                  // Optional: official website
+    val mapLocationUrl: String = "",           // Google Maps or embedded location URL
+    val logoUrl: String = "",                  // Firebase Storage URL for institute logo
+
+    val establishedYear: String = "",          // e.g., "2005"
+    val description: String = "",              // Short description or about text
+    val facilities: String = "",               // e.g., "Library, Labs, Hostel, WiFi"
+
+    val registrationNumber: String = "",       // Government/education board registration number
+    val identityProofUrl: String = "",         // Firebase Storage URL for certificate/document
+
+    val createdBy: String = "",                // UID of the person who added it
+    val createdAt: Long = 0L,                  // Epoch timestamp
+    val approved: Boolean = false
+)
+
+
+data class JobModel(
+    val providerId: String = "",
+    val jobId: String = "",                  // Unique job ID (Firestore doc ID or UUID)
+    val title: String = "",                  // Job title, e.g., "Frontend Developer"
+    val description: String = "",            // Full job description or responsibilities
+    val jobType: String = "",                // e.g., "Full-time", "Part-time", "Internship", "Remote"
+    val category: String = "",               // e.g., "IT", "Education", "Sales", "Healthcare"
+
+    val companyId: String = "",              // Firebase UID or ID of employer posting
+    val companyName: String = "",            // Name of the company/employer
+    val companyLogoUrl: String = "",         // Optional logo image
+
+    val location: String = "",               // e.g., "Chhindwara, MP", or "Remote"
+    val salaryRange: String = "",            // e.g., "₹20,000 - ₹30,000/month"
+    val qualifications: String = "",         // e.g., "B.Tech, MCA", or "12th pass"
+
+    val experienceRequired: String = "",     // e.g., "1-2 years", "Fresher allowed"
+    val skillsRequired: String = "",         // e.g., "Kotlin, Firebase, REST APIs"
+
+    val postedBy: String = "",               // UID of the poster
+    val postedAt: Long = 0L,                 // Epoch millis timestamp
+    val lastDateToApply: String = "",        // Optional: "2025-07-15" (string format)
+    val isOpen: Boolean = true,              // True = accepting applications
+
+    val totalApplicants: Int = 0,            // Optional: Count of applications (can update incrementally)
+    val approvalStatus: String = "pending"
+)
+
+
+
+data class LectureModel(
+    val providerId: String = "",
+    val lectureId: String = "",             // Unique lecture ID (doc ID or UUID)
+    val title: String = "",                 // e.g., "Introduction to Algebra"
+    val description: String = "",           // Short summary of the lecture
+    val subject: String = "",               // e.g., "Mathematics"
+    val classLevel: String = "",            // e.g., "Class 10", "B.Sc 1st Year", "NEET"
+
+    val videoUrl: String = "",              // YouTube link or Firebase Storage video link
+    val videoDuration: String = "",         // e.g., "15:23"
+    val thumbnailUrl: String = "",          // Optional: Thumbnail image URL
+
+    val teacherName: String = "",           // e.g., "Dr. Rajesh Sharma"
+    val teacherId: String = "",             // UID of the teacher uploading
+    val institutionId: String = "",         // Optional: linked school/college/coaching
+    val institutionName: String = "",       // Optional: human-readable name
+
+    val tags: List<String> = emptyList(),   // e.g., ["algebra", "basics", "CBSE"]
+    val isFree: Boolean = true,             // Free or Paid lecture
+    val price: String = "",                 // If paid, e.g., "₹199"
+
+    val uploadedAt: Long = 0L,              // Epoch timestamp
+    val approved: Boolean = false
+)
+
+
+
+data class OrderModel(
+    val providerId: String = "",
+    val orderId: String = "",                    // Unique order ID (Firestore doc ID or generated UUID)
+    val userId: String = "",                     // UID of the user placing the order
+    val userName: String = "",                   // Optional: name of the user
+    val userPhone: String = "",                  // Contact number for delivery
+
+    val items: List<OrderItemModel> = listOf(),  // List of items (defined below)
+    val totalAmount: Double = 0.0,               // Grand total amount (after discounts, if any)
+    val paymentMethod: String = "",              // e.g., "COD", "UPI", "Credit Card"
+    val paymentStatus: String = "pending",       // e.g., "pending", "paid", "failed", "refunded"
+
+    val shippingAddress: String = "",            // Full delivery address
+    val pincode: String = "",                    // For delivery filtering
+    val city: String = "",                       // City name
+    val state: String = "",                      // State
+
+    val orderStatus: String = "placed",          // e.g., "placed", "processing", "shipped", "delivered", "cancelled"
+    val orderDate: Long = 0L,                    // Timestamp in millis
+    val deliveryDate: Long? = null,              // Optional: delivery date
+    val trackingId: String = "",                 // Optional: courier tracking ID
+    val notes: String = "",
+)
+
+data class OrderItemModel(
+    val productId: String = "",                  // ID of the product
+    val productName: String = "",                // Product title
+    val productImageUrl: String = "",            // Main image for the product
+
+    val selectedVariant: String = "",            // e.g., "Color: Red, Size: M"
+    val quantity: Int = 1,                       // Quantity ordered
+    val pricePerUnit: Double = 0.0,              // Price per unit
+    val totalPrice: Double = 0.0                 // Total = quantity * pricePerUnit
+)
+
+
+data class ProductModel(
+    val providerId: String = "",
+    val productId: String = "",                   // Firestore doc ID or UUID
+    val name: String = "",                        // Product name
+    val description: String = "",                 // Full product description
+    val brand: String = "",                       // Optional: e.g., "Nike", "Samsung"
+
+    val category: String = "",                    // e.g., "Fashion", "Electronics", "Grocery"
+    val subCategory: String = "",                 // e.g., "Men's Shoes", "Mobile Phones"
+
+    val price: Double = 0.0,                      // Base price
+    val discountPercent: Int = 0,                 // Optional: discount %
+    val finalPrice: Double = 0.0,                 // price after discount
+    val stock: Int = 0,                           // Inventory count
+
+    val variants: List<String> = listOf(),        // e.g., ["Red - M", "Red - L", "Blue - M"]
+    val variantPrices: Map<String, Double> = mapOf(), // Optional: {"Red - M": 999.0, "Blue - L": 1099.0}
+
+    val images: List<String> = listOf(),          // List of image URLs (Firebase Storage)
+    val thumbnailUrl: String = "",                // Optional: main display image
+
+    val sellerId: String = "",                    // UID of the seller or shop
+    val sellerName: String = "",                  // For display
+    val location: String = "",                    // Optional: city or shop location
+
+    val isAvailable: Boolean = true,              // True if product is live
+    val createdAt: Long = 0L,                     // Timestamp in millis
+    val approved: Boolean = false
+)
+
+
+
+data class PropertyModel(
+    val providerId: String = "",
+    val propertyId: String = "",                // Unique ID (Firestore doc ID or UUID)
+    val title: String = "",                     // e.g., "2 BHK Flat near Railway Station"
+    val description: String = "",               // Detailed description of the property
+
+    val type: String = "",                      // e.g., "House", "Flat", "Shop", "Hostel", "Land"
+    val purpose: String = "",                   // "Rent" or "Sale"
+
+    val price: Double = 0.0,                    // Total price or rent
+    val areaSqFt: Double = 0.0,                 // Optional: area in square feet
+
+    val city: String = "",                      // For filtering
+    val locality: String = "",                  // More specific area
+    val address: String = "",                   // Full address
+    val pincode: String = "",                   // Optional for regional filter
+    val mapLocationUrl: String = "",            // Optional: Google Maps link
+
+    val bedrooms: Int = 0,                      // Optional for flats/houses
+    val bathrooms: Int = 0,                     // Optional
+    val furnished: Boolean = false,             // True = furnished
+
+    val amenities: List<String> = listOf(),     // e.g., ["WiFi", "Parking", "Balcony"]
+
+    val images: List<String> = listOf(),        // Firebase Storage image URLs
+    val thumbnailUrl: String = "",              // Optional: main image
+
+    val ownerId: String = "",                   // UID of the person who posted it
+    val ownerName: String = "",                 // Optional: display name
+    val contactPhone: String = "",              // For direct inquiry
+
+    val postedAt: Long = 0L,                    // Timestamp
+    val approved: Boolean = false,              // Admin approval before publishing
+    val isAvailable: Boolean = true
+)
+
+
+data class RestaurentMenuModel(
+    val providerId: String = "",
+    val restaurantId: String = "",               // UID or Firestore ID of the restaurant
+    val menuId: String = "",                     // Unique ID for the menu or menu section
+    val category: String = "",                   // e.g., "Starters", "Main Course", "Desserts"
+
+    val items: List<MenuItemModel> = listOf(),   // List of items in this category
+    val updatedAt: Long = 0L
+)
+
+data class MenuItemModel(
+    val itemId: String = "",                     // Unique item ID
+    val name: String = "",                       // e.g., "Paneer Butter Masala"
+    val description: String = "",                // Short item description
+    val price: Double = 0.0,                     // Price of the item
+    val isAvailable: Boolean = true,             // True = currently available
+    val isVeg: Boolean = true,                   // True = veg, False = non-veg
+
+    val imageUrl: String = "",                   // Optional: food image
+    val spicyLevel: String = "",                 // Optional: "Mild", "Medium", "Hot"
+    val tags: List<String> = listOf()            // e.g., ["popular", "chef special", "Jain"]
+)
+
+
+data class RestaurentModel(
+    val providerId: String = "",
+    val restaurantId: String = "",             // Firestore doc ID or UUID
+    val name: String = "",                     // Restaurant name
+    val description: String = "",              // Optional: description or tagline
+    val ownerId: String = "",                  // UID of the owner/manager
+
+    val phone: String = "",                    // Contact number
+    val email: String = "",                    // Optional
+    val address: String = "",                  // Full address
+    val city: String = "",                     // For filtering
+    val pincode: String = "",                  // Optional for delivery radius
+    val locationUrl: String = "",              // Optional Google Maps link
+
+    val openTime: String = "",                 // e.g., "09:00 AM"
+    val closeTime: String = "",                // e.g., "11:00 PM"
+    val isOpen: Boolean = true,                // Toggle for temporary closure
+
+    val cuisine: List<String> = listOf(),      // e.g., ["Indian", "Chinese", "South Indian"]
+    val vegOnly: Boolean = false,              // True = Pure Veg
+
+    val logoUrl: String = "",                  // Restaurant logo
+    val bannerImages: List<String> = listOf(), // Optional: banners for UI
+
+    val rating: Double = 0.0,                  // Average user rating
+    val totalRatings: Int = 0,                 // Count of total reviews
+
+    val isApproved: Boolean = false,           // Admin approval
+    val createdAt: Long = 0L
+)
+
+
+data class ResumeModel(
+    val providerId: String = "",
+    val resumeId: String = "",
+    val userId: String = "",
+    val fullName: String = "",
+    val email: String = "",
+    val phone: String = "",
+    val profileSummary: String = "",
+
+    val education1: String = "",  // Example: "B.Tech, ABC University, 2019-2023"
+    val education2: String = "",
+
+    val experience1: String = "", // Example: "Android Intern at XYZ, Jan-Jun 2023"
+    val experience2: String = "",
+
+    val skill1: String = "",      // e.g., "Kotlin"
+    val skill2: String = "",      // e.g., "Firebase"
+
+    val certification1: String = "", // e.g., "Google Android Dev Certificate"
+    val certification2: String = "",
+
+    val project1: String = "",    // e.g., "QuickApp Chhindwara - Kotlin/Firebase"
+    val project2: String = "",
+
+    val profileImageUrl: String = "", // Firebase Storage URL
+    val resumePdfUrl: String = "",    // Firebase Storage PDF URL
+
+    val createdAt: String = "",   // Optional: store as formatted date
+    val updatedAt: String = ""
+
+)
+
+
+
+data class RoomModel(
+    val providerId: String = "",
+    val roomId: String = "",                   // Firestore doc ID or UUID
+    val title: String = "",                    // e.g., "Single Room for Rent near Market"
+    val description: String = "",              // Detailed description of the room
+
+    val rentPerMonth: Double = 0.0,            // Monthly rent
+    val deposit: Double = 0.0,                 // Optional: security deposit
+    val furnished: Boolean = false,            // Is the room furnished?
+
+    val city: String = "",                     // City for search
+    val locality: String = "",                 // e.g., "MG Road"
+    val address: String = "",                  // Full address
+    val pincode: String = "",                  // For filtering
+    val mapLocationUrl: String = "",           // Optional Google Maps link
+
+    val availableFor: String = "",             // e.g., "Boys", "Girls", "Family", "Anyone"
+    val roomType: String = "",                 // e.g., "Single", "Double", "Shared", "1BHK"
+
+    val amenities: List<String> = listOf(),    // e.g., ["WiFi", "Laundry", "Attached Bathroom"]
+    val images: List<String> = listOf(),       // Firebase Storage URLs
+    val thumbnailUrl: String = "",             // Optional main image
+
+    val postedByUserId: String = "",           // UID of the user who posted
+    val postedByName: String = "",             // Optional name for display
+    val contactPhone: String = "",             // For direct contact
+
+    val isAvailable: Boolean = true,           // Room currently available or not
+    val approved: Boolean = false,             // Admin-approved or pending
+    val postedAt: Long = 0L
+)
+
+
+
+data class UserModel(
+    val providerId: String = "",
+    val uid: String = "",                        // Firebase Auth UID
+    val fullName: String = "",                   // User's full name
+    val email: String = "",                      // Email address
+    val phone: String = "",                      // Mobile number
+    val profileImageUrl: String = "",            // Optional: Firebase Storage profile image
+
+    val role: String = "user",                   // "user", "admin", "manager", "client"
+    val isVerified: Boolean = false,             // True if profile is verified
+    val status: String = "active",               // "active", "inactive", "banned"
+
+    val gender: String = "",                     // Optional: "Male", "Female", "Other"
+    val dateOfBirth: String = "",                // Optional: "YYYY-MM-DD"
+    val address: String = "",                    // Optional full address
+    val city: String = "",
+    val pincode: String = "",
+
+    val createdAt: Long = 0L,                    // Timestamp in millis
+    val lastLoginAt: Long = 0L
+)
+
+
+data class ChatModel (
+    val providerId: String = "",
+    val messageId: String = "",                  // Unique message ID
+    val senderId: String = "",                   // Firebase UID of sender
+    val receiverId: String = "",                 // Firebase UID of receiver (or groupId for groups)
+    val content: String = "",                    // Text content or media caption
+    val messageType: String = "text",            // "text", "image", "video", "audio", "file", "location"
+    val mediaUrl: String = "",                   // For media (image/video/audio/file)
+    val thumbnailUrl: String = "",               // For video or image preview
+    val replyToMessageId: String? = null,        // Optional: ID of the message being replied to
+    val timestamp: Long = 0L,                    // Sent timestamp (Epoch millis)
+    val seenBy: List<String> = listOf(),         // UIDs of users who have seen the message
+    val isDeleted: Boolean = false,              // True if deleted by sender
+    val forwarded: Boolean = false
+)
+
+
+data class ChatUserStatusModel(
+    val providerId: String = "",
+    val userId: String = "",
+    val isOnline: Boolean = false,
+    val lastSeen: Long = 0L,
+    val isTypingTo: String? = null              // UID of user being typed to
+)
+
+
+data class StatusModel(
+    val providerId: String = "",                    // Firestore document ID or UUID
+    val statusId: String = "",                    // Firestore document ID or UUID
+    val userId: String = "",                      // UID of the user who posted
+    val userName: String = "",                    // For quick display
+    val userProfileUrl: String = "",              // Profile image
+
+    val mediaUrl: String = "",                    // Image/video URL from Firebase Storage
+    val mediaType: String = "image",              // "image", "video", "text"
+    val caption: String = "",                     // Optional text caption
+    val backgroundColor: String = "#000000",      // Used if mediaType == "text"
+
+    val viewers: List<String> = listOf(),         // UIDs of users who viewed the status
+    val createdAt: Long = 0L,                     // Epoch millis
+    val expiresAt: Long = 0L,                     // For auto-delete (usually +24 hours)
+
+    val isVisibleTo: List<String> = listOf(),     // Optional: allow only specific UIDs
+    val isHiddenFrom: List<String> = listOf()     // Optional: hide from specific UIDs
+)
+
+
+data class BookingDoctorModel(
+    val providerId: String = "",
+    val bookingId: String = "",                // Firestore document ID or UUID
+    val doctorId: String = "",                 // UID or ID of the doctor
+    val doctorName: String = "",               // Display name
+    val doctorSpeciality: String = "",         // e.g., "Dermatologist"
+
+    val userId: String = "",                   // UID of the patient/user
+    val userName: String = "",                 // Name of the patient
+    val userPhone: String = "",                // Contact number
+
+    val appointmentDate: String = "",          // Format: "YYYY-MM-DD"
+    val appointmentTime: String = "",          // Format: "HH:mm" or "10:30 AM"
+    val bookingTimestamp: Long = 0L,           // Time when booking was made (Epoch millis)
+
+    val mode: String = "offline",              // "offline", "online"
+    val status: String = "pending",            // "pending", "confirmed", "cancelled", "completed"
+    val reason: String = "",                   // Optional: patient's reason for visit
+
+    val location: String = "",                 // Clinic location (for offline)
+    val consultationFee: Double = 0.0,         // Optional: doctor's fee
+    val paymentStatus: String = "unpaid"       // "paid", "unpaid", "pending"
+)
+
+
+
+
+
+
+
+
+
+const { data, error } = await supabase
+  .from('users')
+  .select('*')
+  .eq('a', userId);  // userId is UUID from session
+
+
+const { error } = await supabase
+  .from('users')
+  .insert([
+    {
+      a: userId,      // UUID (auth.uid())
+      b: "John Doe",
+      c: 25,
+      d: userEmail
+    }
+  ]);
+
+
+const { error } = await supabase
+  .from('users')
+  .upsert([
+    {
+      a: userId,
+      b: "John Doe",
+      c: 25,
+      d: userEmail
+    }
+  ], { onConflict: "a" });   // conflict on UUID column "a"
+
+
+const { error } = await supabase
+  .from('users')
+  .update({ b: "Jane Doe", c: 26 })
+  .eq('a', userId);
+
+
+const { error } = await supabase
+  .from('users')
+  .delete()
+  .eq('a', userId);
