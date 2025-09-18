@@ -53,6 +53,124 @@
       window.location.href = "index.html";
     }
     window.signOut = signOut;
+
+    const tableBody = document.getElementById("table-body");
+    const searchInput = document.getElementById("search");
+    const filterFirm = document.getElementById("filter-firm");
+    const pageInfo = document.getElementById("page-info");
+    const prevBtn = document.getElementById("prev");
+    const nextBtn = document.getElementById("next");
+
+    let page = 1;
+    const pageSize = 5;
+
+    async function loadData() {
+      const search = searchInput.value.trim();
+      const firmFilter = filterFirm.value;
+
+      let query = supabase.from("firm").select("*", { count: "exact" });
+
+      if (search) query = query.ilike("n", `%${search}%`);
+      if (firmFilter) query = query.eq("firm", firmFilter);
+
+      const { data, count, error } = await query
+        .range((page - 1) * pageSize, page * pageSize - 1)
+        .order("created_at", { ascending: false }); // ✅ created_at exists
+
+      if (error) {
+        console.error("Fetch error:", error);
+        return;
+      }
+
+      // Fill table
+      tableBody.innerHTML = "";
+      data.forEach(row => {
+        tableBody.innerHTML += `
+        <tr class="border-b">
+          <td class="px-2 py-1">${row.n}</td>
+          <td class="px-2 py-1">${row.a}</td>
+          <td class="px-2 py-1">${row.c}</td>
+          <td class="px-2 py-1">${row.firm}</td>
+          <td class="px-2 py-1">
+            <button onclick="editRow('${row.id}','${row.n}','${row.a}','${row.c}','${row.firm}')" class="text-blue-500">Edit</button>
+            <button onclick="deleteRow('${row.id}')" class="text-red-500 ml-2">Delete</button>
+          </td>
+        </tr>
+      `;
+      });
+
+      // Pagination info
+      const totalPages = Math.ceil(count / pageSize);
+      pageInfo.textContent = `Page ${page} of ${totalPages}`;
+      prevBtn.disabled = page <= 1;
+      nextBtn.disabled = page >= totalPages;
+
+      // Populate firm filter dynamically
+      const { data: firms } = await supabase.from("firm").select("firm").neq("firm", "").order("firm");
+      const uniqueFirms = [...new Set(firms.map(f => f.firm))];
+      filterFirm.innerHTML = '<option value="">All Firms</option>';
+      uniqueFirms.forEach(f => {
+        filterFirm.innerHTML += `<option value="${f}">${f}</option>`;
+      });
+    }
+
+    // Create
+    document.getElementById("create-form").addEventListener("submit", async e => {
+      e.preventDefault();
+      const n = document.getElementById("name").value.trim();
+      const a = document.getElementById("address").value.trim();
+      const c = document.getElementById("contact").value.trim();
+      const firm = document.getElementById("firm").value.trim();
+
+      if (!n || !firm) return;
+
+      const { error } = await supabase.from("firm").insert([{ n, a, c, firm }]);
+      if (error) alert("❌ Insert failed: " + error.message);
+      else {
+        e.target.reset();
+        loadData();
+      }
+    });
+
+    // Update
+    window.editRow = async (id, n, a, c, firm) => {
+      const newName = prompt("New name:", n);
+      const newAddress = prompt("New address:", a);
+      const newContact = prompt("New contact:", c);
+      const newFirm = prompt("New firm:", firm);
+
+      if (!newName) return;
+
+      const { error } = await supabase
+        .from("firm")
+        .update({ n: newName, a: newAddress, c: newContact, firm: newFirm })
+        .eq("id", id);
+
+      if (error) alert("❌ Update failed: " + error.message);
+      else loadData();
+    };
+
+    // Delete
+    window.deleteRow = async id => {
+      if (confirm("Delete this row?")) {
+        const { error } = await supabase.from("firm").delete().eq("id", id);
+        if (error) alert("❌ Delete failed: " + error.message);
+        else loadData();
+      }
+    };
+
+    // Pagination
+    prevBtn.addEventListener("click", () => { page--; loadData(); });
+    nextBtn.addEventListener("click", () => { page++; loadData(); });
+
+    // Search & filter
+    searchInput.addEventListener("input", () => { page = 1; loadData(); });
+    filterFirm.addEventListener("change", () => { page = 1; loadData(); });
+
+    // Initial load
+    loadData();
+
+
   </script>
 </head>
 
@@ -155,110 +273,7 @@
         </div>
       </div>
 
-      <script>
-        // Supabase client is already created at the top
 
-        const tableBody = document.getElementById("table-body");
-        const searchInput = document.getElementById("search");
-        const filterCity = document.getElementById("filter-city");
-        const pageInfo = document.getElementById("page-info");
-        const prevBtn = document.getElementById("prev");
-        const nextBtn = document.getElementById("next");
-
-        let page = 1;
-        const pageSize = 5;
-
-        async function loadData() {
-          const search = searchInput.value.trim();
-          const address = filterAddress.value;
-
-          let query = supabase.from("firm").select("*", { count: "exact" });
-
-          if (search) query = query.ilike("n", `%${search}%`);
-          if (address) query = query.eq("a", address);
-
-          const { data, count, error } = await query
-            .range((page - 1) * pageSize, page * pageSize - 1)
-            .order("created_at", { ascending: false });
-
-          if (error) {
-            console.error("Fetch error:", error.message);
-            return;
-          }
-
-          // Fill table
-          tableBody.innerHTML = "";
-          data.forEach(row => {
-            tableBody.innerHTML += `
-      <tr class="border-b">
-        <td class="px-2 py-1">${row.n}</td>
-        <td class="px-2 py-1">${row.a}</td>
-        <td class="px-2 py-1">${row.c}</td>
-        <td class="px-2 py-1">
-          <button onclick="editRow('${row.id}','${row.n}','${row.a}','${row.c}')" class="text-blue-500">Edit</button>
-          <button onclick="deleteRow('${row.id}')" class="text-red-500 ml-2">Delete</button>
-        </td>
-      </tr>
-    `;
-          });
-
-          // Pagination info
-          const totalPages = Math.ceil(count / pageSize);
-          pageInfo.textContent = `Page ${page} of ${totalPages}`;
-          prevBtn.disabled = page <= 1;
-          nextBtn.disabled = page >= totalPages;
-
-          // Populate address filter
-          const { data: addresses } = await supabase.from("firm").select("a").neq("a", "").order("a");
-          const uniqueAddresses = [...new Set(addresses.map(r => r.a))];
-          filterAddress.innerHTML = '<option value="">All Addresses</option>';
-          uniqueAddresses.forEach(addr => {
-            filterAddress.innerHTML += `<option value="${addr}">${addr}</option>`;
-          });
-        }
-
-
-        // CRUD
-        document.getElementById("create-form").addEventListener("submit", async e => {
-          e.preventDefault();
-          const name = document.getElementById("name").value.trim();
-          const address = document.getElementById("address").value.trim();
-          const contact = document.getElementById("contact").value.trim();
-
-          if (!name) return;
-          await supabase.from("firm").insert([{ n: name, a: address, c: contact }]);
-          e.target.reset();
-          loadData();
-        });
-
-        window.editRow = async (id, name, address, contact) => {
-          const newName = prompt("New name:", name);
-          const newAddress = prompt("New address:", address);
-          const newContact = prompt("New contact:", contact);
-          if (newName)
-            await supabase.from("firm").update({ n: newName, a: newAddress, c: newContact }).eq("id", id);
-          loadData();
-        };
-
-        window.deleteRow = async id => {
-          if (confirm("Delete this row?")) {
-            await supabase.from("firm").delete().eq("id", id);
-            loadData();
-          }
-        };
-
-
-        // Pagination events
-        prevBtn.addEventListener("click", () => { page--; loadData(); });
-        nextBtn.addEventListener("click", () => { page++; loadData(); });
-
-        // Search & filter
-        searchInput.addEventListener("input", () => { page = 1; loadData(); });
-        filterCity.addEventListener("change", () => { page = 1; loadData(); });
-
-        // Initial load
-        loadData();
-      </script>
 
     </div>
 
