@@ -55,6 +55,7 @@
   </section>
 
   <!-- Features Section -->
+  <!-- Features Section -->
   <section class="max-w-6xl mx-auto px-6 py-12 grid gap-8">
     <div class="flex gap-4">
       <input id="searchInput" type="text" placeholder="Search firms..." class="flex-1 border px-3 py-2 rounded-lg" />
@@ -64,6 +65,7 @@
     </div>
 
     <p id="status" class="text-sm text-gray-500"></p>
+
     <!-- Table -->
     <div class="overflow-x-auto mt-6">
       <table class="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-lg shadow-sm">
@@ -78,6 +80,13 @@
         </thead>
         <tbody id="users" class="divide-y divide-gray-200 bg-white"></tbody>
       </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-between items-center mt-4">
+      <button id="prevBtn" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Prev</button>
+      <span id="pageInfo" class="text-sm text-gray-600"></span>
+      <button id="nextBtn" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Next</button>
     </div>
 
     <p id="error" class="text-red-600"></p>
@@ -97,8 +106,16 @@
     const errorEl = document.getElementById('error');
     const refreshBtn = document.getElementById('refreshBtn');
     const searchInput = document.getElementById('searchInput');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageInfo = document.getElementById('pageInfo');
 
-    async function loadUsers(page = 0, pageSize = 50, search = "") {
+    let currentPage = 0;
+    const pageSize = 5;
+    let totalRows = 0;
+    let currentSearch = "";
+
+    async function loadUsers(page = 0, pageSize = 5, search = "") {
       statusEl.textContent = 'Loading...';
       errorEl.textContent = '';
 
@@ -116,28 +133,35 @@
         const { data, error, count } = await query;
         if (error) throw error;
 
+        totalRows = count ?? 0;
         usersEl.innerHTML = '';
+
         if (!data || data.length === 0) {
           usersEl.innerHTML = `
-    <tr>
-      <td colspan="5" class="text-center py-4 text-gray-500">No firms found</td>
-    </tr>`;
+          <tr>
+            <td colspan="5" class="text-center py-4 text-gray-500">No firms found</td>
+          </tr>`;
         } else {
           data.forEach(u => {
             const row = document.createElement('tr');
             row.innerHTML = `
-      <td class="px-4 py-2 text-sm text-gray-700">${u.id ?? ''}</td>
-      <td class="px-4 py-2 text-sm text-gray-700">${u.n ?? 'No name'}</td>
-      <td class="px-4 py-2 text-sm text-gray-700">${u.a ?? ''}</td>
-      <td class="px-4 py-2 text-sm text-gray-700">${u.c ?? ''}</td>
-      <td class="px-4 py-2 text-sm text-gray-700">${u.firm ?? ''}</td>
-    `;
+            <td class="px-4 py-2 text-sm text-gray-700">${u.id ?? ''}</td>
+            <td class="px-4 py-2 text-sm text-gray-700">${u.n ?? 'No name'}</td>
+            <td class="px-4 py-2 text-sm text-gray-700">${u.a ?? ''}</td>
+            <td class="px-4 py-2 text-sm text-gray-700">${u.c ?? ''}</td>
+            <td class="px-4 py-2 text-sm text-gray-700">${u.firm ?? ''}</td>
+          `;
             usersEl.appendChild(row);
           });
         }
 
+        // ✅ Pagination info
+        const totalPages = Math.ceil(totalRows / pageSize);
+        pageInfo.textContent = `Page ${page + 1} of ${totalPages}`;
+        prevBtn.disabled = page <= 0;
+        nextBtn.disabled = page + 1 >= totalPages;
 
-        statusEl.textContent = `Showing ${data.length} of ${count ?? data.length}`;
+        statusEl.textContent = `Showing ${data.length} of ${totalRows}`;
       } catch (err) {
         console.error(err);
         errorEl.textContent = 'Error loading firm: ' + (err.message || err);
@@ -147,13 +171,27 @@
 
     // ✅ Event listeners
     searchInput.addEventListener("input", (e) => {
-      loadUsers(0, 50, e.target.value.trim());
+      currentSearch = e.target.value.trim();
+      currentPage = 0;
+      loadUsers(currentPage, pageSize, currentSearch);
     });
 
-    refreshBtn.addEventListener('click', () => loadUsers());
+    refreshBtn.addEventListener('click', () => loadUsers(currentPage, pageSize, currentSearch));
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        loadUsers(currentPage, pageSize, currentSearch);
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentPage++;
+      loadUsers(currentPage, pageSize, currentSearch);
+    });
 
     // ✅ Initial load
-    loadUsers();
+    loadUsers(currentPage, pageSize, currentSearch);
 
     // ✅ Logout
     async function signOut() {
@@ -162,6 +200,7 @@
     }
     window.signOut = signOut;
   </script>
+
 </body>
 
 </html>
