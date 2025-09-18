@@ -6,72 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SwarnSathi - Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <meta charset="UTF-8">
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script type="module">
-    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-    // 🔹 Supabase setup
-    const SUPABASE_URL = "https://qczxnozxubugbcklmkij.supabase.co";
-    const SUPABASE_ANON_KEY =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjenhub3p4dWJ1Z2Jja2xta2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwODQ5NTUsImV4cCI6MjA3MzY2MDk1NX0.orP9of9MxNMcYlDMh1QMUi8aThZ3_R5ISUnD2T9bokA";
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    document.addEventListener("DOMContentLoaded", async () => {
-      // ✅ Check session
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        window.location.href = "index.html";
-        return;
-      }
-
-      // ✅ Show email in navbar
-      document.getElementById("user-email").textContent = session.user.email;
-
-      // ✅ Dummy profile check (replace later with Supabase users table check)
-      const profileCompleted = localStorage.getItem("profileCompleted") === "true";
-
-      if (!profileCompleted) {
-        document.getElementById("matrimony-lock").classList.remove("hidden");
-        document.getElementById("matrimony-btn").onclick = () => {
-          window.location.href = "profile.html"; // Redirect to complete profile
-        };
-      } else {
-        document.getElementById("matrimony-lock").classList.add("hidden");
-        document.getElementById("matrimony-btn").onclick = () => {
-          window.location.href = "matrimony.html"; // unlocked access
-        };
-      }
-    });
-
-    // ✅ Logout function
-    async function signOut() {
-      await supabase.auth.signOut();
-      localStorage.removeItem("profileCompleted"); // reset
-      window.location.href = "index.html";
-    }
-    window.signOut = signOut;
-
-    const tableBody = document.getElementById("table-body");
-    const searchInput = document.getElementById("search");
-    const filterFirm = document.getElementById("filter-firm");
-    const pageInfo = document.getElementById("page-info");
-    const prevBtn = document.getElementById("prev");
-    const nextBtn = document.getElementById("next");
-
-    
-
-
-  </script>
 </head>
 
 <body class="bg-gray-50 font-sans">
   <!-- Navbar -->
   <header class="bg-white shadow sticky top-0 z-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-
       <!-- Logo -->
       <h1 class="text-lg sm:text-xl font-bold text-gray-800">QuickApp Chhindwara</h1>
 
@@ -104,13 +45,9 @@
     </div>
   </header>
 
-
   <!-- Hero Section -->
   <section class="bg-gradient-to-r from-pink-100 to-yellow-100 py-16 text-center">
     <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">QuickApp Chhindwara - Schools</h2>
-    <!-- <p class="text-gray-600 max-w-xl mx-auto">
-            Your one-stop local app for services, shopping, education, rentals, and more in Chhindwara.
-        </p> -->
     <button onclick="window.location.href='schools.html'"
       class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-yellow-600 transition">
       Add Your School
@@ -119,33 +56,25 @@
 
   <!-- Features Section -->
   <section class="max-w-6xl mx-auto px-6 py-12 grid gap-8">
+    <div class="flex gap-4">
+      <input id="searchInput" type="text" placeholder="Search firms..."
+        class="flex-1 border px-3 py-2 rounded-lg" />
+      <button id="refreshBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        Refresh
+      </button>
+    </div>
 
-
-
-    <div>
-    <button id="refreshBtn">Refresh</button>
-  </div>
-
-  <input id="searchInput" type="text" placeholder="Search firms..." />
-
-  <p id="status"></p>
-  <ul id="users"></ul>
-  <p id="error"></p>
-
-
+    <p id="status" class="text-sm text-gray-500"></p>
+    <ul id="users" class="space-y-2"></ul>
+    <p id="error" class="text-red-600"></p>
   </section>
 
-
-
-
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Replace with your project values (from Supabase dashboard → API)
-    // const SUPABASE_URL = "https://qczxnozxubugbcklmkij.supabase.co";
-    // const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjenhub3p4dWJ1Z2Jja2xta2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwODQ5NTUsImV4cCI6MjA3MzY2MDk1NX0.orP9of9MxNMcYlDMh1QMUi8aThZ3_R5ISUnD2T9bokA";
+    // ✅ Supabase client
+    const SUPABASE_URL = "https://qczxnozxubugbcklmkij.supabase.co";
+    const SUPABASE_ANON_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjenhub3p4dWJ1Z2Jja2xta2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwODQ5NTUsImV4cCI6MjA3MzY2MDk1NX0.orP9of9MxNMcYlDMh1QMUi8aThZ3_R5ISUnD2T9bokA";
 
-    // UMD exposes `supabase` global object; extract createClient
     const { createClient } = supabase;
     const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -153,56 +82,61 @@
     const usersEl = document.getElementById('users');
     const errorEl = document.getElementById('error');
     const refreshBtn = document.getElementById('refreshBtn');
+    const searchInput = document.getElementById('searchInput');
 
     async function loadUsers(page = 0, pageSize = 50, search = "") {
-  statusEl.textContent = 'Loading...';
-  errorEl.textContent = '';
+      statusEl.textContent = 'Loading...';
+      errorEl.textContent = '';
 
-  try {
-    let query = client
-      .from('firm')
-      .select('*', { count: 'exact' })
-      .order('id', { ascending: true })
-      .range(page * pageSize, page * pageSize + pageSize - 1);
+      try {
+        let query = client
+          .from('firm')
+          .select('*', { count: 'exact' })
+          .order('id', { ascending: true })
+          .range(page * pageSize, page * pageSize + pageSize - 1);
 
-    if (search) {
-      query = query.or(`n.ilike.%${search}%,firm.ilike.%${search}%`);
+        if (search) {
+          query = query.or(`n.ilike.%${search}%,firm.ilike.%${search}%`);
+        }
+
+        const { data, error, count } = await query;
+        if (error) throw error;
+
+        usersEl.innerHTML = '';
+        if (!data || data.length === 0) {
+          usersEl.innerHTML = '<li>No firms found</li>';
+        } else {
+          data.forEach(u => {
+            const li = document.createElement('li');
+            li.textContent = `${u.n ?? 'No name'} — ${u.a ?? ''}, ${u.c ?? ''}`;
+            usersEl.appendChild(li);
+          });
+        }
+
+        statusEl.textContent = `Showing ${data.length} of ${count ?? data.length}`;
+      } catch (err) {
+        console.error(err);
+        errorEl.textContent = 'Error loading firm: ' + (err.message || err);
+        statusEl.textContent = '';
+      }
     }
 
-    const { data, error, count } = await query;
-    console.log("Fetched data:", data);
-
-    if (error) throw error;
-
-    usersEl.innerHTML = '';
-    if (!data || data.length === 0) {
-      usersEl.innerHTML = '<li>No firms found</li>';
-    } else {
-      data.forEach(u => {
-        const li = document.createElement('li');
-        li.textContent = `${u.n ?? 'No name'} — ${u.a ?? ''}, ${u.c ?? ''}`;
-        usersEl.appendChild(li);
-      });
-    }
-
-    statusEl.textContent = `Showing ${data.length} of ${count ?? data.length}`;
-  } catch (err) {
-    console.error(err);
-    errorEl.textContent = 'Error loading firm: ' + (err.message || err);
-    statusEl.textContent = '';
-  }
-}
-
-document.getElementById("searchInput").addEventListener("input", (e) => {
-  loadUsers(0, 50, e.target.value.trim());
-});
-
-
-    // initial load
-    loadUsers();
+    // ✅ Event listeners
+    searchInput.addEventListener("input", (e) => {
+      loadUsers(0, 50, e.target.value.trim());
+    });
 
     refreshBtn.addEventListener('click', () => loadUsers());
+
+    // ✅ Initial load
+    loadUsers();
+
+    // ✅ Logout
+    async function signOut() {
+      await client.auth.signOut();
+      window.location.href = "index.html";
+    }
+    window.signOut = signOut;
   </script>
 </body>
-
 </html>
