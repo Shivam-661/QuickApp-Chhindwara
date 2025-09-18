@@ -171,6 +171,7 @@
         async function loadData() {
           const search = searchInput.value.trim();
           const address = filterAddress.value;
+
           let query = supabase.from("firm").select("*", { count: "exact" });
 
           if (search) query = query.ilike("n", `%${search}%`);
@@ -181,7 +182,7 @@
             .order("created_at", { ascending: false });
 
           if (error) {
-            console.error(error);
+            console.error("Fetch error:", error.message);
             return;
           }
 
@@ -207,14 +208,15 @@
           prevBtn.disabled = page <= 1;
           nextBtn.disabled = page >= totalPages;
 
-          // Populate address filter dynamically
+          // Populate address filter
           const { data: addresses } = await supabase.from("firm").select("a").neq("a", "").order("a");
-          const uniqueAddresses = [...new Set(addresses.map(c => c.a))];
+          const uniqueAddresses = [...new Set(addresses.map(r => r.a))];
           filterAddress.innerHTML = '<option value="">All Addresses</option>';
           uniqueAddresses.forEach(addr => {
             filterAddress.innerHTML += `<option value="${addr}">${addr}</option>`;
           });
         }
+
 
         // CRUD
         document.getElementById("create-form").addEventListener("submit", async e => {
