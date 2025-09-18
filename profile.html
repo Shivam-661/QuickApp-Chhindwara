@@ -181,9 +181,10 @@
             const firmName = document.getElementById("firmName").value;
             const address = document.getElementById("firmAddress").value;
             const contact = document.getElementById("firmContact").value;
+            const name = document.getElementById("profileName").value;
 
             await client.from("firm").upsert([
-                { uid, firm: firmName, a: address, c: contact }
+                { uid, n: name, firm: firmName, a: address, c: contact }
             ]);
 
             alert("Firm updated ✅");
