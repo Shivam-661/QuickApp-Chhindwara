@@ -61,114 +61,7 @@
     const prevBtn = document.getElementById("prev");
     const nextBtn = document.getElementById("next");
 
-    let page = 1;
-    const pageSize = 5;
-
-    async function loadData() {
-      const search = searchInput.value.trim();
-      const firmFilter = filterFirm.value;
-
-      let query = supabase.from("firm").select("*", { count: "exact" });
-
-      if (search) query = query.ilike("n", `%${search}%`);
-      if (firmFilter) query = query.eq("firm", firmFilter);
-
-      const { data, count, error } = await query
-        .range((page - 1) * pageSize, page * pageSize - 1)
-        .order("created_at", { ascending: false }); // ✅ created_at exists
-
-      if (error) {
-        console.error("Fetch error:", error);
-        return;
-      }
-
-      // Fill table
-      tableBody.innerHTML = "";
-      data.forEach(row => {
-        tableBody.innerHTML += `
-        <tr class="border-b">
-          <td class="px-2 py-1">${row.n}</td>
-          <td class="px-2 py-1">${row.a}</td>
-          <td class="px-2 py-1">${row.c}</td>
-          <td class="px-2 py-1">${row.firm}</td>
-          <td class="px-2 py-1">
-            <button onclick="editRow('${row.id}','${row.n}','${row.a}','${row.c}','${row.firm}')" class="text-blue-500">Edit</button>
-            <button onclick="deleteRow('${row.id}')" class="text-red-500 ml-2">Delete</button>
-          </td>
-        </tr>
-      `;
-      });
-
-      // Pagination info
-      const totalPages = Math.ceil(count / pageSize);
-      pageInfo.textContent = `Page ${page} of ${totalPages}`;
-      prevBtn.disabled = page <= 1;
-      nextBtn.disabled = page >= totalPages;
-
-      // Populate firm filter dynamically
-      const { data: firms } = await supabase.from("firm").select("firm").neq("firm", "").order("firm");
-      const uniqueFirms = [...new Set(firms.map(f => f.firm))];
-      filterFirm.innerHTML = '<option value="">All Firms</option>';
-      uniqueFirms.forEach(f => {
-        filterFirm.innerHTML += `<option value="${f}">${f}</option>`;
-      });
-    }
-
-    // Create
-    document.getElementById("create-form").addEventListener("submit", async e => {
-      e.preventDefault();
-      const n = document.getElementById("name").value.trim();
-      const a = document.getElementById("address").value.trim();
-      const c = document.getElementById("contact").value.trim();
-      const firm = document.getElementById("firm").value.trim();
-
-      if (!n || !firm) return;
-
-      const { error } = await supabase.from("firm").insert([{ n, a, c, firm }]);
-      if (error) alert("❌ Insert failed: " + error.message);
-      else {
-        e.target.reset();
-        loadData();
-      }
-    });
-
-    // Update
-    window.editRow = async (id, n, a, c, firm) => {
-      const newName = prompt("New name:", n);
-      const newAddress = prompt("New address:", a);
-      const newContact = prompt("New contact:", c);
-      const newFirm = prompt("New firm:", firm);
-
-      if (!newName) return;
-
-      const { error } = await supabase
-        .from("firm")
-        .update({ n: newName, a: newAddress, c: newContact, firm: newFirm })
-        .eq("id", id);
-
-      if (error) alert("❌ Update failed: " + error.message);
-      else loadData();
-    };
-
-    // Delete
-    window.deleteRow = async id => {
-      if (confirm("Delete this row?")) {
-        const { error } = await supabase.from("firm").delete().eq("id", id);
-        if (error) alert("❌ Delete failed: " + error.message);
-        else loadData();
-      }
-    };
-
-    // Pagination
-    prevBtn.addEventListener("click", () => { page--; loadData(); });
-    nextBtn.addEventListener("click", () => { page++; loadData(); });
-
-    // Search & filter
-    searchInput.addEventListener("input", () => { page = 1; loadData(); });
-    filterFirm.addEventListener("change", () => { page = 1; loadData(); });
-
-    // Initial load
-    loadData();
+    
 
 
   </script>
@@ -229,58 +122,87 @@
 
 
 
-    <div class="bg-gray-100 min-h-screen p-6">
-      <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
-        <h1 class="text-2xl font-bold mb-4">Profiles CRUD</h1>
+    <div>
+    <button id="refreshBtn">Refresh</button>
+  </div>
 
-        <!-- Create Form -->
-        <form id="create-form" class="flex gap-2 mb-6">
-          <input id="name" placeholder="Name" class="border px-2 py-1 rounded w-1/3"><br>
-          <input id="address" placeholder="Address" class="border px-2 py-1 rounded w-1/3"><br>
-          <input id="contact" placeholder="Contact" class="border px-2 py-1 rounded w-1/3"><br>
-          <input id="firm" placeholder="Firm" class="border px-2 py-1 rounded w-1/3"><br>
-          <button class="bg-blue-500 text-white px-4 py-1 rounded">Add</button>
-        </form>
+  <input id="searchInput" type="text" placeholder="Search firms..." />
 
-        <!-- Search + Filter -->
-        <div class="flex justify-between mb-4">
-          <input id="search" placeholder="Search name..." class="border px-2 py-1 rounded w-1/2">
-          <select id="filter-address" class="border px-2 py-1 rounded">
-            <option value="">All Addresses</option>
-          </select>
-        </div>
-
-        <!-- Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border">
-            <thead class="bg-gray-200">
-              <tr>
-                <th class="px-2 py-1">Name</th>
-                <th class="px-2 py-1">Address</th>
-                <th class="px-2 py-1">Contact</th>
-                <th class="px-2 py-1">Firm</th>
-                <th class="px-2 py-1">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-          </table>
-        </div>
-
-
-        <!-- Pagination -->
-        <div class="flex justify-center mt-4 gap-2">
-          <button id="prev" class="px-3 py-1 bg-gray-200 rounded">Prev</button>
-          <span id="page-info" class="px-2"></span>
-          <button id="next" class="px-3 py-1 bg-gray-200 rounded">Next</button>
-        </div>
-      </div>
-
-
-
-    </div>
+  <p id="status"></p>
+  <ul id="users"></ul>
+  <p id="error"></p>
 
 
   </section>
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Replace with your project values (from Supabase dashboard → API)
+    // const SUPABASE_URL = "https://qczxnozxubugbcklmkij.supabase.co";
+    // const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjenhub3p4dWJ1Z2Jja2xta2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwODQ5NTUsImV4cCI6MjA3MzY2MDk1NX0.orP9of9MxNMcYlDMh1QMUi8aThZ3_R5ISUnD2T9bokA";
+
+    // UMD exposes `supabase` global object; extract createClient
+    const { createClient } = supabase;
+    const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const statusEl = document.getElementById('status');
+    const usersEl = document.getElementById('users');
+    const errorEl = document.getElementById('error');
+    const refreshBtn = document.getElementById('refreshBtn');
+
+    async function loadUsers(page = 0, pageSize = 50, search = "") {
+  statusEl.textContent = 'Loading...';
+  errorEl.textContent = '';
+
+  try {
+    let query = client
+      .from('firm')
+      .select('*', { count: 'exact' })
+      .order('id', { ascending: true })
+      .range(page * pageSize, page * pageSize + pageSize - 1);
+
+    if (search) {
+      query = query.or(`n.ilike.%${search}%,firm.ilike.%${search}%`);
+    }
+
+    const { data, error, count } = await query;
+    console.log("Fetched data:", data);
+
+    if (error) throw error;
+
+    usersEl.innerHTML = '';
+    if (!data || data.length === 0) {
+      usersEl.innerHTML = '<li>No firms found</li>';
+    } else {
+      data.forEach(u => {
+        const li = document.createElement('li');
+        li.textContent = `${u.n ?? 'No name'} — ${u.a ?? ''}, ${u.c ?? ''}`;
+        usersEl.appendChild(li);
+      });
+    }
+
+    statusEl.textContent = `Showing ${data.length} of ${count ?? data.length}`;
+  } catch (err) {
+    console.error(err);
+    errorEl.textContent = 'Error loading firm: ' + (err.message || err);
+    statusEl.textContent = '';
+  }
+}
+
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  loadUsers(0, 50, e.target.value.trim());
+});
+
+
+    // initial load
+    loadUsers();
+
+    refreshBtn.addEventListener('click', () => loadUsers());
+  </script>
 </body>
 
 </html>
