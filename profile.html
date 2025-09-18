@@ -167,9 +167,13 @@
             const uid = document.getElementById("uid").value;
             const name = document.getElementById("profileName").value;
 
-            await client.from("users").upsert([
-                { uid, name }
-            ]);
+            await client
+                .from("users")
+                .upsert(
+                    [{ uid, name }],          // the row(s) to insert/update
+                    { onConflict: "uid" }     // column(s) used to detect conflict
+                );
+
 
             alert("Profile updated ✅");
         });
@@ -183,9 +187,21 @@
             const contact = document.getElementById("firmContact").value;
             const name = document.getElementById("profileName").value;
 
-            await client.from("firm").upsert([
-                { uid, n: name, firm: firmName, a: address, c: contact }, { onConflict: "uid" }
-            ]);
+            await client
+                .from("firm")
+                .upsert(
+                    [
+                        {
+                            uid,
+                            n: name,
+                            firm: firmName,
+                            a: address,
+                            c: contact
+                        }
+                    ],
+                    { onConflict: "uid" }   // ✅ second argument
+                );
+
 
             alert("Firm updated ✅");
         });
