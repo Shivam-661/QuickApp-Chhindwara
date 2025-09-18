@@ -57,15 +57,29 @@
   <!-- Features Section -->
   <section class="max-w-6xl mx-auto px-6 py-12 grid gap-8">
     <div class="flex gap-4">
-      <input id="searchInput" type="text" placeholder="Search firms..."
-        class="flex-1 border px-3 py-2 rounded-lg" />
+      <input id="searchInput" type="text" placeholder="Search firms..." class="flex-1 border px-3 py-2 rounded-lg" />
       <button id="refreshBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
         Refresh
       </button>
     </div>
 
     <p id="status" class="text-sm text-gray-500"></p>
-    <ul id="users" class="space-y-2"></ul>
+    <!-- Table -->
+    <div class="overflow-x-auto mt-6">
+      <table class="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-lg shadow-sm">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">ID</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Name</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Address</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Contact</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Firm</th>
+          </tr>
+        </thead>
+        <tbody id="users" class="divide-y divide-gray-200 bg-white"></tbody>
+      </table>
+    </div>
+
     <p id="error" class="text-red-600"></p>
   </section>
 
@@ -104,14 +118,24 @@
 
         usersEl.innerHTML = '';
         if (!data || data.length === 0) {
-          usersEl.innerHTML = '<li>No firms found</li>';
+          usersEl.innerHTML = `
+    <tr>
+      <td colspan="5" class="text-center py-4 text-gray-500">No firms found</td>
+    </tr>`;
         } else {
           data.forEach(u => {
-            const li = document.createElement('li');
-            li.textContent = `${u.n ?? 'No name'} — ${u.a ?? ''}, ${u.c ?? ''}`;
-            usersEl.appendChild(li);
+            const row = document.createElement('tr');
+            row.innerHTML = `
+      <td class="px-4 py-2 text-sm text-gray-700">${u.id ?? ''}</td>
+      <td class="px-4 py-2 text-sm text-gray-700">${u.n ?? 'No name'}</td>
+      <td class="px-4 py-2 text-sm text-gray-700">${u.a ?? ''}</td>
+      <td class="px-4 py-2 text-sm text-gray-700">${u.c ?? ''}</td>
+      <td class="px-4 py-2 text-sm text-gray-700">${u.firm ?? ''}</td>
+    `;
+            usersEl.appendChild(row);
           });
         }
+
 
         statusEl.textContent = `Showing ${data.length} of ${count ?? data.length}`;
       } catch (err) {
@@ -139,4 +163,5 @@
     window.signOut = signOut;
   </script>
 </body>
+
 </html>
