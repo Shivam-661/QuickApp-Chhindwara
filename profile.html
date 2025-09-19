@@ -112,10 +112,31 @@
                     <label class="block text-sm font-medium">Category</label>
                     <select id="firmCategory" name="country" placeholder="Choose Category"
                         class="w-full border px-3 py-2 rounded-lg">
-                        <option value="">Select a country</option>
-                        <option value="us">United States</option>
-                        <option value="ca">Canada</option>
-                        <option value="mx">Mexico</option>
+                        <option value="">Select a Category</option>
+                        <option value="shops">Local Shop</option>
+                        <option value="school">School</option>
+                        <option value="college">College</option>
+                        <option value="computer">Computer Shop</option>
+                        <option value="mobile">Mobile Shop</option>
+                        <option value="hospital">Hospital</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="garage">Garage</option>
+                        <option value="business">Business</option>
+                        <option value="coaching">Coaching</option>
+                        <option value="gym">Gym</option>
+                        <option value="hotel">Hotel</option>
+                        <option value="job">Job/Consultancy</option>
+                        <option value="library">Book Store or Library</option>
+                        <option value="medical">Medical</option>
+                        <option value="parlour">Parlour</option>
+                        <option value="petrol">Petrol Pump</option>
+                        <option value="property">Property</option>
+                        <option value="room">Room/Hostel</option>
+                        <option value="restaurent">Restaurent</option>
+                        <option value="salon">Salon</option>
+                        <option value="service">Service Center</option>
+                        <option value="shopping">Shopping Mall</option>
+                        <option value="vehicle">Vehicle Agency</option>
                     </select>
                 </div>
 
@@ -205,6 +226,7 @@
             const firmName = document.getElementById("firmName").value;
             const address = document.getElementById("firmAddress").value;
             const contact = document.getElementById("firmContact").value;
+            const category = document.getElementById("firmCategory").value;
             const name = document.getElementById("profileName").value;
 
             await client
@@ -216,7 +238,8 @@
                             n: name,
                             firm: firmName,
                             a: address,
-                            c: contact
+                            c: contact,
+                            cat: category
                         }
                     ],
                     { onConflict: "uid" }
