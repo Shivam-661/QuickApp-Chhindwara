@@ -86,12 +86,20 @@
 
         <!-- Firm Info -->
         <div class="bg-white shadow rounded-lg p-6">
-            <h2 class="text-xl font-bold mb-4">Firm Details</h2>
+            <h1 class="text-2xl font-bold mb-4">List Your Business on QuickApp Chhindwara</h1>
+            <p class="text-sm text-gray-600 mb-6">Fill the form below to advertise your service in Chhindwara. We'll
+                review and publish.</p>
             <form id="firmForm" class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium">Firm Name</label>
                     <input id="firmName" type="text" class="w-full border px-3 py-2 rounded-lg"
                         placeholder="Firm Name" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Contact</label>
+                    <input id="firmContact" type="text" class="w-full border px-3 py-2 rounded-lg"
+                        placeholder="Firm Contact" />
                 </div>
 
                 <div>
@@ -101,10 +109,16 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium">Contact</label>
-                    <input id="firmContact" type="text" class="w-full border px-3 py-2 rounded-lg"
-                        placeholder="Firm Contact" />
+                    <label class="block text-sm font-medium">Category</label>
+                    <select id="firmCategory" name="country" placeholder="Choose Category"
+                        class="w-full border px-3 py-2 rounded-lg">
+                        <option value="">Select a country</option>
+                        <option value="us">United States</option>
+                        <option value="ca">Canada</option>
+                        <option value="mx">Mexico</option>
+                    </select>
                 </div>
+
 
                 <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
                     Save Firm
@@ -113,11 +127,11 @@
         </div>
     </section>
 
-   <div class="container d-flex flex-column justify-content-center align-items-center vh-100 text-center">
-    <footer class="mt-5 text-muted">
-      &copy; 2025 QuickApp Chhindwara. All Rights Reserved.
-    </footer>
-  </div>
+    <div class="container d-flex flex-column justify-content-center align-items-center vh-100 text-center">
+        <footer class="mt-5 text-muted">
+            &copy; 2025 QuickApp Chhindwara. All Rights Reserved.
+        </footer>
+    </div>
 
     <script>
         // ✅ Supabase client
@@ -205,7 +219,7 @@
                             c: contact
                         }
                     ],
-                    { onConflict: "uid" }   
+                    { onConflict: "uid" }
                 );
 
 
