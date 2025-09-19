@@ -67,7 +67,8 @@
   <!-- Features Section -->
   <section class="max-w-6xl mx-auto px-6 py-12 grid gap-4">
     <div class="gap-2">
-      <input id="searchInput" type="text" placeholder="Search Schools..." class="flex-1 border px-3 py-2 my-2 rounded-lg" />
+      <input id="searchInput" type="text" placeholder="Search Schools..."
+        class="flex-1 border px-3 py-2 my-2 rounded-lg" />
       <button id="refreshBtn" class="bg-blue-500 text-white px-4 py-2 my-2 rounded-lg hover:bg-blue-600">
         Refresh
       </button>
@@ -76,20 +77,17 @@
     <p id="status" class="text-sm text-gray-500"></p>
 
     <!-- Table -->
-    <div class="overflow-x-auto mt-6">
-      <table class="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-lg shadow-sm">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">ID</th>
-            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Name</th>
-            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Address</th>
-            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Contact</th>
-            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Firm</th>
-          </tr>
-        </thead>
-        <tbody id="users" class="divide-y divide-gray-200 bg-white"></tbody>
-      </table>
-    </div>
+    <!-- <div class="overflow-x-auto mt-6"> -->
+      <!-- <table class="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-lg shadow-sm"> -->
+        <!-- <thead class="bg-gray-100"> -->
+        <!-- </thead> -->
+        <!-- <tbody id="users" class="divide-y divide-gray-200 bg-white"></tbody> -->
+        <div id="users" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+  <!-- User cards will be injected here -->
+<!-- </div> -->
+
+      <!-- </table> -->
+    <!-- </div> -->
 
     <!-- Pagination -->
     <div class="flex justify-between items-center mt-4">
@@ -159,13 +157,23 @@
         } else {
           data.forEach(u => {
             const row = document.createElement('tr');
-            row.innerHTML = `
-            <td class="px-4 py-2 text-sm text-gray-700">${u.id ?? ''}</td>
-            <td class="px-4 py-2 text-sm text-gray-700">${u.n ?? 'No name'}</td>
-            <td class="px-4 py-2 text-sm text-gray-700">${u.a ?? ''}</td>
-            <td class="px-4 py-2 text-sm text-gray-700">${u.c ?? ''}</td>
-            <td class="px-4 py-2 text-sm text-gray-700">${u.firm ?? ''}</td>
-          `;
+            row.innerHTML = `<div class="bg-white border border-gray-200 rounded-lg shadow p-4 hover:shadow-md transition">
+    <div class="flex items-center gap-3">
+      <!-- Avatar / ID circle -->
+      <div class="w-12 h-12 flex items-center justify-center rounded-full bg-blue-500 text-white font-semibold">
+        ${u.id ?? ''}
+      </div>
+      <!-- Basic Info -->
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800">${u.n ?? 'No name'}</h3>
+        <p class="text-sm text-gray-500">${u.firm ?? ''}</p>
+      </div>
+    </div>
+    <div class="mt-4 space-y-2 text-sm text-gray-700">
+      <p><span class="font-medium">Address:</span> ${u.a ?? ''}</p>
+      <p><span class="font-medium">Contact:</span> ${u.c ?? ''}</p>
+    </div>
+  </div>`;
             usersEl.appendChild(row);
           });
         }
