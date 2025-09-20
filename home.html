@@ -7,8 +7,8 @@
     <title>SwarnSathi - Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3553379388798049"
-     crossorigin="anonymous"></script>
-<meta name="google-adsense-account" content="ca-pub-3553379388798049">
+        crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-3553379388798049">
     <script type="module">
         import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -30,13 +30,13 @@
             // ✅ Show email in navbar
             document.getElementById("user-email").textContent = session.user.email;
 
-            
+
         });
 
         // ✅ Logout function
         async function signOut() {
             await supabase.auth.signOut();
-             window.location.href = "login.html";
+            window.location.href = "login.html";
         }
         window.signOut = signOut;
     </script>
@@ -55,7 +55,6 @@
                 <a href="home.html" class="text-gray-700 hover:text-gray-900">Home</a>
                 <a href="profile.html" class="text-gray-700 hover:text-gray-900">Profile</a>
                 <span id="user-email-desktop" class="text-sm text-gray-500"></span>
-                
                 <button onclick="signOut()"
                     class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
                     Login/Logout
@@ -76,10 +75,9 @@
             <a href="home.html" class="block text-gray-700 hover:text-gray-900 py-2">Home</a>
             <a href="profile.html" class="block text-gray-700 hover:text-gray-900 py-2">Profile</a>
             <span class="block text-gray-600 text-sm mb-2" id="user-email-mobile"></span>
-            <button onclick="signOut()"
-                    class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
-                    Login/Logout
-                </button>
+            <button onclick="signOut()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                Login/Logout
+            </button>
         </div>
     </header>
 
@@ -120,8 +118,18 @@
                     class="w-16 h-16 mb-4" alt="Colleges">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Colleges</h3>
                 <button onclick="window.location.href='colleges.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Colleges
+                </button>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+                <img src="https://api.iconify.design/material-symbols:engineering.svg" class="w-16 h-16 mb-4"
+                    alt="ITI Institutes">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">ITI Institutes</h3>
+                <button onclick="window.location.href='institutes.html'"
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    Explore ITI Institutes
                 </button>
             </div>
 
@@ -138,7 +146,7 @@
                 <img src="https://api.iconify.design/mdi:hospital-building.svg" class="w-16 h-16 mb-4" alt="Hospitals">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Hospitals</h3>
                 <button onclick="window.location.href='hospitals.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Hospitals
                 </button>
             </div>
@@ -158,7 +166,7 @@
                     alt="Rooms">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Rooms</h3>
                 <button onclick="window.location.href='rooms.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Rooms
                 </button>
             </div>
@@ -176,7 +184,7 @@
                 <img src="https://api.iconify.design/mdi:school.svg" class="w-16 h-16 mb-4" alt="Coachings">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Coachings</h3>
                 <button onclick="window.location.href='coachings.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Coachings
                 </button>
             </div>
@@ -196,7 +204,7 @@
                     alt="Businesses">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Businesses</h3>
                 <button onclick="window.location.href='businesses.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Businesses
                 </button>
             </div>
@@ -215,7 +223,7 @@
                 <img src="https://api.iconify.design/mdi:lipstick.svg" class="w-16 h-16 mb-4" alt="Beauty Parlours">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Beauty Parlours</h3>
                 <button onclick="window.location.href='parlours.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Beauty Parlours
                 </button>
             </div>
@@ -233,7 +241,7 @@
                 <img src="https://api.iconify.design/mdi:bookshelf.svg" class="w-16 h-16 mb-4" alt="Library">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Libraries</h3>
                 <button onclick="window.location.href='libraries.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Book Stores & Libraries
                 </button>
             </div>
@@ -252,7 +260,7 @@
                     alt="Restaurants">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Restaurants</h3>
                 <button onclick="window.location.href='restaurents.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Restaurants
                 </button>
             </div>
@@ -270,7 +278,7 @@
                 <img src="https://api.iconify.design/mdi:laptop.svg" class="w-16 h-16 mb-4" alt="Computer Shops">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Computer Shops</h3>
                 <button onclick="window.location.href='computer.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Computer Shops
                 </button>
             </div>
@@ -288,7 +296,7 @@
                 <img src="https://api.iconify.design/mdi:wrench.svg" class="w-16 h-16 mb-4" alt="Garages">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Garages</h3>
                 <button onclick="window.location.href='garage.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Garages
                 </button>
             </div>
@@ -306,7 +314,7 @@
                 <img src="https://api.iconify.design/mdi:tools.svg" class="w-16 h-16 mb-4" alt="Service Centers">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Service Centers</h3>
                 <button onclick="window.location.href='service.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Service Centers
                 </button>
             </div>
@@ -324,16 +332,16 @@
                 <img src="https://api.iconify.design/mdi:pharmacy.svg" class="w-16 h-16 mb-4" alt="Medical Stores">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Medical Stores</h3>
                 <button onclick="window.location.href='medical.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Medicals
                 </button>
             </div>
 
             <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
-                <img src="https://api.iconify.design/mdi:pharmacy.svg" class="w-16 h-16 mb-4" alt="Medical Stores">
+                <img src="https://api.iconify.design/mdi:shape-outline.svg" class="w-16 h-16 mb-4" alt="Others">
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Others</h3>
                 <button onclick="window.location.href='others.html'"
-                    class="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                    class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                     Explore Others
                 </button>
             </div>
@@ -344,11 +352,11 @@
 
     </section>
 
-   <div class="container d-flex flex-column justify-content-center align-items-center vh-100 text-center">
-    <footer class="mt-5 text-muted">
-      &copy; 2025 QuickApp Chhindwara. All Rights Reserved.
-    </footer>
-  </div>
+    <div class="container d-flex flex-column justify-content-center align-items-center vh-100 text-center">
+        <footer class="mt-5 text-muted">
+            &copy; 2025 QuickApp Chhindwara. All Rights Reserved.
+        </footer>
+    </div>
 </body>
 
 </html>
