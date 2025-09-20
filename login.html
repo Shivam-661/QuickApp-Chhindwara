@@ -30,7 +30,7 @@
       // If already logged in → go to homepage
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        window.location.href = "home.html";
+        window.location.href = "profile.html";
       }
     });
 
