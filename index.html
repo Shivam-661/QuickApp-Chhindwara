@@ -33,7 +33,7 @@
 
         });
 
-        // ✅ Logout function
+         function
         async function signOut() {
             await supabase.auth.signOut();
             window.location.href = "login.html";
@@ -43,14 +43,14 @@
 </head>
 
 <body class="bg-gray-50 font-sans">
-    <!-- Navbar -->
+    
     <header class="bg-white shadow sticky top-0 z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
 
-            <!-- Logo -->
+            
             <h1 class="text-lg sm:text-xl font-bold text-gray-800">QuickApp Chhindwara</h1>
 
-            <!-- Desktop Menu -->
+            
             <nav class="hidden sm:flex space-x-6 items-center">
                 <a href="home.html" class="text-gray-700 hover:text-gray-900">Home</a>
                 <a href="profile.html" class="text-gray-700 hover:text-gray-900">Profile</a>
@@ -61,7 +61,7 @@
                 </button>
             </nav>
 
-            <!-- Mobile Menu Button -->
+            
             <button id="menu-btn"
                 class="sm:hidden flex items-center p-2 rounded-md hover:bg-gray-100 focus:outline-none">
                 <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,7 +70,7 @@
             </button>
         </div>
 
-        <!-- Mobile Dropdown -->
+        
         <div id="mobile-menu" class="hidden sm:hidden px-4 pb-4">
             <a href="home.html" class="block text-gray-700 hover:text-gray-900 py-2">Home</a>
             <a href="profile.html" class="block text-gray-700 hover:text-gray-900 py-2">Profile</a>
@@ -82,7 +82,7 @@
     </header>
 
     <script>
-        // Mobile menu toggle
+        
         document.getElementById("menu-btn").addEventListener("click", () => {
             const menu = document.getElementById("mobile-menu");
             menu.classList.toggle("hidden");
@@ -90,7 +90,7 @@
     </script>
 
 
-    <!-- Hero Section -->
+    
     <section class="bg-gradient-to-r from-pink-100 to-yellow-100 py-16 text-center">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Welcome to QuickApp Chhindwara</h2>
         <p class="text-gray-600 max-w-xl mx-auto">
@@ -98,7 +98,7 @@
         </p>
     </section>
 
-    <!-- Features Section -->
+    
     <section class="max-w-6xl mx-auto">
 
         <div class="mx-auto px-6 py-12 grid gap-8 grid-cols-1 md:grid-cols-2">
